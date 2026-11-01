@@ -1,0 +1,2122 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boreas 北風學院｜發現你的「北風超能力」</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <!-- html2canvas for High-Res PNG Screenshot Export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- Canvas Confetti for Celebration FX -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&family=Cinzel:wght@700;900&display=swap');
+
+    body {
+      font-family: 'Noto Sans TC', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 40%, #e0f7fa 80%, #bae6fd 100%);
+      background-attachment: fixed;
+    }
+
+    .font-cinzel {
+      font-family: 'Cinzel', serif;
+    }
+
+    /* Ambient North Wind and Frost Animations */
+    @keyframes windFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(1deg); }
+    }
+
+    @keyframes breezeDrift {
+      0% { transform: translateX(-10vw) translateY(0) rotate(0deg); opacity: 0; }
+      15% { opacity: 0.85; }
+      85% { opacity: 0.85; }
+      100% { transform: translateX(110vw) translateY(60px) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes windGustLine {
+      0% { stroke-dashoffset: 800; opacity: 0; }
+      20% { opacity: 0.7; }
+      80% { opacity: 0.7; }
+      100% { stroke-dashoffset: -800; opacity: 0; }
+    }
+
+    @keyframes auroraPulse {
+      0%, 100% { opacity: 0.35; transform: scale(1); }
+      50% { opacity: 0.65; transform: scale(1.08); }
+    }
+
+    @keyframes rainbowShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes stampDrop {
+      0% { transform: scale(2.6) rotate(-28deg); opacity: 0; }
+      70% { transform: scale(0.94) rotate(5deg); opacity: 0.95; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    .wind-card-float {
+      animation: windFloat 4s ease-in-out infinite;
+    }
+
+    .stamp-anim {
+      animation: stampDrop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .breeze-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+      animation: breezeDrift linear infinite;
+    }
+
+    .wind-svg-path {
+      stroke-dasharray: 200 400;
+      animation: windGustLine 9s linear infinite;
+    }
+
+    /* Light Frosted Glass Styling */
+    .boreas-glass {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(186, 230, 253, 0.8);
+      box-shadow: 0 10px 30px -5px rgba(56, 189, 248, 0.15), 0 4px 6px -2px rgba(56, 189, 248, 0.05);
+    }
+
+    .boreas-card {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(186, 230, 253, 0.9);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 8px 20px -4px rgba(56, 189, 248, 0.12);
+    }
+
+    .boreas-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: #38bdf8;
+      box-shadow: 0 20px 35px -8px rgba(56, 189, 248, 0.3);
+    }
+
+    .rainbow-border {
+      background: linear-gradient(135deg, #38bdf8, #818cf8, #f472b6, #fbbf24, #34d399, #38bdf8);
+      background-size: 300% 300%;
+      animation: rainbowShift 5s ease infinite;
+    }
+
+    .rainbow-text {
+      background: linear-gradient(135deg, #0284c7, #6366f1, #d946ef, #0d9488);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbowShift 4s ease infinite;
+    }
+
+    .aurora-title {
+      background: linear-gradient(135deg, #0369a1 0%, #0284c7 40%, #4338ca 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Custom Checkbox */
+    .reroll-checkbox:checked {
+      background-color: #f43f5e;
+      border-color: #f43f5e;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(224, 242, 254, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(56, 189, 248, 0.5);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(2, 132, 199, 0.7);
+    }
+  </style>
+</head>
+<body class="text-slate-800 min-h-screen relative overflow-x-hidden selection:bg-sky-400 selection:text-white">
+
+  <!-- ========================================== -->
+  <!-- BOREAS NORTH WIND BACKGROUND & PARTICLES   -->
+  <!-- ========================================== -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <!-- Soft Northern Aurora Clouds -->
+    <div class="absolute -top-32 -left-32 w-[500px] h-[500px] bg-sky-300/30 rounded-full filter blur-[100px]"></div>
+    <div class="absolute top-1/4 -right-40 w-[600px] h-[600px] bg-cyan-200/35 rounded-full filter blur-[120px]"></div>
+    <div class="absolute -bottom-40 left-1/4 w-[700px] h-[700px] bg-indigo-200/25 rounded-full filter blur-[130px]"></div>
+
+    <!-- North Wind Streamlines (SVG Wind Gusts) -->
+    <svg class="absolute inset-0 w-full h-full opacity-60" xmlns="http://www.w3.org/2000/svg">
+      <path class="wind-svg-path" d="M-100,80 Q300,30 700,90 T1500,60" fill="none" stroke="#38bdf8" stroke-width="2.5" />
+      <path class="wind-svg-path" style="animation-delay: -3s; animation-duration: 11s;" d="M-100,260 Q400,210 900,280 T1800,230" fill="none" stroke="#7dd3fc" stroke-width="2" />
+      <path class="wind-svg-path" style="animation-delay: -6s; animation-duration: 13s;" d="M-100,520 Q500,470 1000,540 T1900,490" fill="none" stroke="#38bdf8" stroke-width="2" />
+      <path class="wind-svg-path" style="animation-delay: -1.5s; animation-duration: 8s;" d="M-100,750 Q350,710 850,770 T1700,730" fill="none" stroke="#bae6fd" stroke-width="3" />
+    </svg>
+
+    <!-- Gentle Drifting Snow & Wind Particles -->
+    <div class="breeze-particle text-sky-400 text-lg opacity-80" style="top: 15%; animation-duration: 14s; animation-delay: 0s;">❄️</div>
+    <div class="breeze-particle text-sky-500 text-base opacity-75" style="top: 35%; animation-duration: 18s; animation-delay: -5s;">🌬️</div>
+    <div class="breeze-particle text-cyan-500 text-xl opacity-70" style="top: 55%; animation-duration: 16s; animation-delay: -8s;">❄️</div>
+    <div class="breeze-particle text-sky-400 text-xs opacity-90" style="top: 75%; animation-duration: 12s; animation-delay: -3s;">✦</div>
+    <div class="breeze-particle text-indigo-400 text-sm opacity-80" style="top: 88%; animation-duration: 20s; animation-delay: -11s;">❄️</div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="relative z-20 border-b border-sky-200/90 bg-white/80 backdrop-blur-md sticky top-0 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3 cursor-pointer group" onclick="goToCover()">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-sky-400 via-cyan-400 to-indigo-500 flex items-center justify-center shadow-md shadow-sky-300/40 group-hover:scale-105 transition-transform">
+          <span class="text-xl">🌬️</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-[11px] uppercase font-black tracking-widest text-sky-600 font-cinzel">Boreas Academy</span>
+            <span class="px-2 py-0.5 text-[10px] font-extrabold bg-sky-100 text-sky-700 rounded-full border border-sky-300">北風學院</span>
+          </div>
+          <h1 class="text-sm md:text-base font-black text-sky-950 tracking-wide flex items-center gap-1.5">
+            <span>發現你的「北風超能力」</span>
+            <span class="text-xs text-sky-500 font-normal hidden sm:inline">・微風吹拂</span>
+          </h1>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button onclick="openCodexModal()" class="px-3.5 py-1.5 text-xs font-bold bg-white/90 hover:bg-sky-50 text-sky-800 rounded-xl border border-sky-200 transition flex items-center gap-1.5 shadow-sm hover:border-sky-300">
+          <span>📖</span>
+          <span class="hidden sm:inline">超能力全圖鑑</span>
+          <span class="sm:hidden">圖鑑</span>
+          <span class="px-1.5 py-0.2 bg-sky-100 text-sky-700 text-[10px] rounded-full font-bold">30+1</span>
+        </button>
+
+        <button onclick="openArchiveModal()" class="px-3.5 py-1.5 text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-xl border border-amber-300 transition flex items-center gap-1.5 shadow-sm">
+          <span>🏆</span>
+          <span class="hidden sm:inline">已解鎖成就</span>
+          <span class="sm:hidden">成就</span>
+          <span id="nav-unlocked-count" class="px-1.5 py-0.2 bg-amber-200 text-amber-900 text-[10px] rounded-full font-extrabold">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="relative z-10 max-w-6xl mx-auto px-4 py-6 md:py-10">
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: COVER SCREEN (封面 - 北風多采多姿)    -->
+    <!-- ========================================== -->
+    <section id="view-cover" class="space-y-10 py-4 transition-all duration-500">
+      
+      <!-- North Wind Emblem & Hero Title -->
+      <div class="text-center space-y-5 max-w-3xl mx-auto">
+        
+        <!-- Boreas Little Superhero Mascot Showcase -->
+        <div class="relative mx-auto w-36 h-36 sm:w-44 sm:h-44 wind-card-float cursor-pointer group" onclick="cheerBoreasHero()" title="點我一下，北風小超人為你注入超能力！">
+          <!-- Floating Aurora Glow -->
+          <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-sky-400/40 via-cyan-300/40 to-indigo-400/30 blur-xl group-hover:scale-115 transition-transform"></div>
+          
+          <!-- Superhero Portrait Circle -->
+          <div class="relative w-full h-full rounded-full overflow-hidden border-4 border-white shadow-2xl shadow-sky-300/60 bg-white ring-4 ring-sky-200">
+            <img 
+              src="assets/images/boreas_superhero.jpg" 
+              alt="北風小超人" 
+              class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
+            />
+          </div>
+
+          <!-- Little Superhero Badge -->
+          <div class="absolute -bottom-1 -right-1 bg-white/95 border-2 border-sky-300 text-sky-800 text-xs font-black px-3 py-1 rounded-full shadow-md flex items-center gap-1 group-hover:scale-105 transition-transform">
+            <span>⚡</span>
+            <span>北風小超人</span>
+          </div>
+        </div>
+
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-sky-300 text-sky-800 text-xs sm:text-sm font-bold shadow-sm">
+          <span class="text-sky-500 animate-pulse">❄️</span>
+          <span>北風學院學生專屬・累積軟實力大盤點</span>
+          <span class="text-sky-500 animate-pulse">🌬️</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight">
+          發現你的<br class="sm:hidden" />
+          <span class="aurora-title">「北風超能力」</span>
+        </h2>
+
+        <p class="text-slate-600 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl mx-auto font-medium">
+          在北風吹拂的學院生活裡，你其實早已點亮了許多強大的隱藏天賦！可能是化解冷場的人際結界、拯救團隊的爛攤子復原術，甚至是神乎其技的無所事事合理化——今天，跟著北風小超人一起喚醒你的專屬神技！
+        </p>
+      </div>
+
+      <!-- Superpower Categories Showcase Banner (6 大系別) -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+        <div class="bg-white/80 border border-emerald-200 rounded-2xl p-3.5 text-center transition hover:border-emerald-400 hover:-translate-y-1 shadow-sm">
+          <div class="text-2xl mb-1">🏕️</div>
+          <div class="text-xs font-bold text-emerald-800">Ⅰ. 生存適應系</div>
+          <div class="text-[10px] text-emerald-600 mt-0.5">新手村也能活得很好</div>
+        </div>
+        <div class="bg-white/80 border border-orange-200 rounded-2xl p-3.5 text-center transition hover:border-orange-400 hover:-translate-y-1 shadow-sm">
+          <div class="text-2xl mb-1">🤝</div>
+          <div class="text-xs font-bold text-orange-800">Ⅱ. 團隊共鬥系</div>
+          <div class="text-[10px] text-orange-600 mt-0.5">一群人不互相傷害</div>
+        </div>
+        <div class="bg-white/80 border border-amber-200 rounded-2xl p-3.5 text-center transition hover:border-amber-400 hover:-translate-y-1 shadow-sm">
+          <div class="text-2xl mb-1">⚡</div>
+          <div class="text-xs font-bold text-amber-800">Ⅲ. 任務執行系</div>
+          <div class="text-[10px] text-amber-600 mt-0.5">想法很美還要能做</div>
+        </div>
+        <div class="bg-white/80 border border-purple-200 rounded-2xl p-3.5 text-center transition hover:border-purple-400 hover:-translate-y-1 shadow-sm">
+          <div class="text-2xl mb-1">🧠</div>
+          <div class="text-xs font-bold text-purple-800">Ⅳ. 大腦探索系</div>
+          <div class="text-[10px] text-purple-600 mt-0.5">不只一種使用方式</div>
+        </div>
+        <div class="bg-white/80 border border-cyan-200 rounded-2xl p-3.5 text-center transition hover:border-cyan-400 hover:-translate-y-1 shadow-sm">
+          <div class="text-2xl mb-1">🧘</div>
+          <div class="text-xs font-bold text-cyan-800">Ⅴ. 內在調節系</div>
+          <div class="text-[10px] text-cyan-600 mt-0.5">管得住也懂得照顧</div>
+        </div>
+        <div class="bg-sky-100/90 border-2 border-sky-300 rounded-2xl p-3.5 text-center transition hover:border-sky-500 hover:-translate-y-1 shadow-md shadow-sky-200/50">
+          <div class="text-2xl mb-1">❄️</div>
+          <div class="text-xs font-extrabold text-sky-900">Ⅵ. 北風限定系</div>
+          <div class="text-[10px] text-sky-700 mt-0.5 font-bold">只有北風專屬梗</div>
+        </div>
+      </div>
+
+      <!-- Start Call-to-Action Card -->
+      <div class="max-w-xl mx-auto boreas-glass rounded-3xl p-6 sm:p-8 shadow-xl text-center space-y-6 relative overflow-hidden">
+        <!-- Floating Frost Corner Ornament -->
+        <div class="absolute top-2 right-3 text-sky-200 text-3xl pointer-events-none">❄️</div>
+        <div class="absolute bottom-2 left-3 text-sky-200 text-2xl pointer-events-none">🌬️</div>
+
+        <div class="space-y-2">
+          <label class="block text-xs font-extrabold uppercase tracking-wider text-sky-900">
+            請輸入你的學院稱號 / 姓名（將印在解鎖證書上）
+          </label>
+          <div class="relative max-w-sm mx-auto">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sky-500 text-base">👤</span>
+            <input 
+              type="text" 
+              id="student-name-input" 
+              placeholder="例如：陳小風 / 北風遊俠" 
+              maxlength="15"
+              class="w-full bg-white border-2 border-sky-200 focus:border-sky-500 focus:ring-4 focus:ring-sky-100 rounded-2xl pl-10 pr-4 py-3 text-sm font-bold text-slate-800 placeholder-slate-400 outline-none transition text-center shadow-sm"
+            />
+          </div>
+        </div>
+
+        <!-- Start Button -->
+        <div class="space-y-3">
+          <button 
+            onclick="startSuperpowerDraw()" 
+            class="w-full group relative inline-flex items-center justify-center p-0.5 overflow-hidden text-base font-bold rounded-2xl bg-gradient-to-r from-sky-400 via-cyan-500 to-indigo-600 shadow-lg shadow-sky-400/30 hover:shadow-sky-400/50 hover:scale-[1.02] active:scale-[0.98] transition-all"
+          >
+            <span class="w-full px-6 py-4 bg-gradient-to-r from-sky-500 via-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center gap-3 text-white">
+              <span class="text-2xl animate-bounce">🌬️</span>
+              <span class="text-lg font-black tracking-wider">呼請北風・召喚 4 張超能力籤</span>
+              <span class="text-sky-100 group-hover:translate-x-1 transition-transform">➔</span>
+            </span>
+          </button>
+
+          <p class="text-xs text-sky-700 font-semibold flex items-center justify-center gap-1.5">
+            <span>✨</span>
+            <span>保底包含一張「我的專屬超能力」＋ 3 張隨機學院隱藏技能</span>
+            <span>✨</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: DRAW 4 CARDS (抽籤與挑選/重抽)       -->
+    <!-- ========================================== -->
+    <section id="view-draw" class="hidden space-y-6 transition-all duration-500">
+      
+      <!-- Title & Guidance Banner -->
+      <div class="boreas-glass rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="space-y-1 text-center md:text-left">
+          <div class="flex items-center justify-center md:justify-start gap-2">
+            <span class="px-2.5 py-0.5 text-xs font-black bg-sky-500 text-white rounded-full shadow-sm">
+              STEP 1
+            </span>
+            <h3 class="text-xl sm:text-2xl font-black text-sky-950 flex items-center gap-1.5">
+              <span>🌬️ 命運超能力籤已揭曉</span>
+            </h3>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-600 font-medium">
+            請從下方 4 張中 <span class="text-sky-700 font-extrabold underline decoration-sky-300">點選 1 張進行解鎖</span>；若手氣不滿意，可 <span class="text-rose-600 font-extrabold">勾選卡牌享有 1 次重抽機會</span>！
+          </p>
+        </div>
+
+        <!-- Re-roll Status Badge -->
+        <div class="flex items-center gap-3 bg-white/95 px-4 py-2 rounded-2xl border border-sky-200 shadow-sm">
+          <div class="text-center">
+            <div class="text-[10px] uppercase font-bold tracking-wider text-slate-400">重抽機會</div>
+            <div id="reroll-chance-text" class="text-sm font-black text-amber-600">剩餘 1 次</div>
+          </div>
+          <button 
+            id="btn-reroll" 
+            onclick="executeReroll()" 
+            class="px-4 py-2 bg-gradient-to-r from-rose-500 to-amber-500 hover:from-rose-600 hover:to-amber-600 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-black rounded-xl shadow-md transition flex items-center gap-1.5"
+          >
+            <span>🎲</span>
+            <span>重抽勾選的卡牌</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 Cards Grid -->
+      <div id="cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Bottom Tip -->
+      <div class="text-center text-xs text-sky-700 font-medium py-2 flex items-center justify-center gap-1">
+        <span>💡</span>
+        <span>提示：點擊卡牌下方的「👉 選擇此技能解鎖」按鈕即可直接進入任務描述！</span>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: UNLOCK MISSION & WRITING (解鎖條件) -->
+    <!-- ========================================== -->
+    <section id="view-unlock" class="hidden space-y-6 transition-all duration-500 max-w-4xl mx-auto">
+      
+      <!-- Back button -->
+      <div class="flex items-center justify-between">
+        <button onclick="backToCards()" class="px-4 py-1.5 text-xs font-bold text-sky-800 hover:text-sky-950 bg-white/90 hover:bg-white rounded-xl transition flex items-center gap-1.5 border border-sky-200 shadow-sm">
+          <span>←</span>
+          <span>返回重新選牌</span>
+        </button>
+        <span class="text-xs text-slate-600 font-medium">
+          探險者：<strong id="unlock-user-name" class="text-sky-700 font-extrabold">北風冒險者</strong>
+        </span>
+      </div>
+
+      <!-- Skill Spotlight Header -->
+      <div id="unlock-card-banner" class="boreas-glass rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+        <!-- Injected dynamically based on selected card -->
+      </div>
+
+      <!-- Unlock Mission Box (解鎖條件要求) -->
+      <div class="bg-white/95 rounded-3xl p-6 sm:p-8 border-2 border-amber-300 shadow-xl space-y-6">
+        
+        <!-- Mission Header -->
+        <div class="border-b border-sky-100 pb-4 space-y-2">
+          <div class="flex items-center gap-2">
+            <span class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-base border border-amber-300">
+              🔓
+            </span>
+            <h4 class="text-lg sm:text-xl font-black text-amber-800">
+              解鎖條件：官方軟實力審定任務
+            </h4>
+          </div>
+          <div class="p-4 bg-amber-50 rounded-2xl border border-amber-200 text-amber-900 text-sm sm:text-base font-extrabold leading-relaxed shadow-sm">
+            📢 「寫下一個事件+感受，證明你已解鎖這個技能（35字以上）」
+          </div>
+        </div>
+
+        <!-- Scaffolding Guide (寫作引導提示) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-sky-50/70 p-4 rounded-2xl border border-sky-200">
+          <div class="space-y-1">
+            <div class="font-extrabold text-sky-800 flex items-center gap-1">
+              <span>📌</span>
+              <span>1. 事件（發生了什麼）：</span>
+            </div>
+            <p class="text-slate-600 leading-relaxed font-medium">
+              在學院的某次專案、社團、課堂、宿舍或日常互動中，遇到了什麼情境？你採取了什麼行動？
+            </p>
+          </div>
+          <div class="space-y-1">
+            <div class="font-extrabold text-indigo-800 flex items-center gap-1">
+              <span>💡</span>
+              <span>2. 感受（內心體悟）：</span>
+            </div>
+            <p class="text-slate-600 leading-relaxed font-medium">
+              當時的心情或收穫是什麼？這件事如何證明你已經不知不覺擁有了這項強大的隱藏超能力？
+            </p>
+          </div>
+        </div>
+
+        <!-- Textarea Input Area -->
+        <div class="space-y-3">
+          <label class="block text-xs font-extrabold text-slate-700 flex items-center justify-between">
+            <span>✍️ 請在下方描述你的解鎖實證：</span>
+            <span id="char-counter-badge" class="px-2.5 py-0.5 text-xs font-mono font-bold rounded-full bg-sky-100 text-sky-800 border border-sky-200">
+              0 / 35 字
+            </span>
+          </label>
+
+          <textarea 
+            id="unlock-story-input" 
+            rows="5" 
+            oninput="handleStoryInput()"
+            placeholder="例如：在上次的小組專案裡，原本大家為了報告架構爭論不休、氣氛一度降到冰點。我試著提出用自嘲的小玩笑打破沉默，並主動把大家的點子用白板畫出流程圖，結果整組瞬間笑開並順利整合！當下覺得超有成就感，也發現自己真的很擅長在混亂中化解尷尬並凝聚大家！" 
+            class="w-full bg-white border-2 border-sky-200 focus:border-sky-500 focus:ring-4 focus:ring-sky-100 rounded-2xl p-4 text-sm sm:text-base leading-relaxed text-slate-900 placeholder-slate-400 outline-none transition shadow-inner"
+          ></textarea>
+
+          <!-- Character Count Status Bar -->
+          <div class="space-y-1.5">
+            <div class="h-2.5 w-full bg-sky-100 rounded-full overflow-hidden">
+              <div id="char-progress-bar" class="h-full bg-amber-400 transition-all duration-300 w-0"></div>
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span id="char-hint-msg" class="text-amber-700 font-bold">
+                ⚠️ 還差 35 個字才能進行技能鑑定喔！請多寫一點細節與感受～
+              </span>
+              <span class="text-slate-500 text-[11px] font-medium">需滿 35 字以上方可送出</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-2">
+          <button 
+            id="btn-submit-unlock" 
+            disabled 
+            onclick="submitSkillUnlock()"
+            class="w-full py-4 px-6 rounded-2xl font-black text-base sm:text-lg tracking-wider text-white bg-slate-300 disabled:opacity-50 disabled:cursor-not-allowed enabled:bg-gradient-to-r enabled:from-sky-500 enabled:via-cyan-500 enabled:to-indigo-600 enabled:shadow-lg enabled:shadow-sky-400/40 enabled:hover:scale-[1.01] enabled:active:scale-[0.99] transition-all flex items-center justify-center gap-2"
+          >
+            <span class="text-xl">⚡</span>
+            <span id="submit-btn-text">技能鑑定（字數未滿 35 字）</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- VIEW 4: CERTIFICATE & EXPORT (鑑定結果與留存)-->
+    <!-- ========================================== -->
+    <section id="view-result" class="hidden space-y-8 transition-all duration-500 max-w-4xl mx-auto">
+      
+      <!-- Top Action Bar -->
+      <div class="boreas-glass rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <span class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl shadow-sm">
+            🎉
+          </span>
+          <div>
+            <h3 class="text-base sm:text-lg font-black text-sky-950">超能力鑑定成功！已正式認證！</h3>
+            <p class="text-xs text-slate-600 font-medium">你已成功解鎖並登錄此項學院軟實力，請利用下方功能進行存檔或截圖！</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="downloadCertificateImage()" class="px-4 py-2 bg-gradient-to-r from-sky-500 to-cyan-600 hover:from-sky-600 hover:to-cyan-700 text-white font-extrabold text-xs rounded-xl shadow-md transition flex items-center gap-1.5">
+            <span>📸</span>
+            <span>下載高清證書圖片</span>
+          </button>
+          <button onclick="copyResultText()" class="px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl border border-sky-200 transition flex items-center gap-1.5 shadow-sm">
+            <span>📋</span>
+            <span>複製心得文字</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Google Sheet Sync Status Notice -->
+      <div id="sheet-sync-status-badge" class="flex justify-center -my-2">
+        <!-- Injected via checkSheetSyncStatus() -->
+      </div>
+
+      <!-- ========================================== -->
+      <!-- OFFICIAL BOREAS CERTIFICATE CARD (淺藍冰風版) -->
+      <!-- ========================================== -->
+      <div class="flex justify-center">
+        <div 
+          id="certificate-card" 
+          class="w-full max-w-2xl text-slate-800 rounded-3xl p-6 sm:p-10 border-4 border-sky-300 relative overflow-hidden shadow-2xl"
+          style="background: linear-gradient(145deg, #ffffff 0%, #f0f9ff 55%, #e0f2fe 100%); box-shadow: 0 25px 60px -15px rgba(56, 189, 248, 0.35);"
+        >
+          <!-- Corner Frost / Rune Ornaments -->
+          <div class="absolute top-3 left-3 text-sky-400 text-xl font-cinzel">❄️</div>
+          <div class="absolute top-3 right-3 text-sky-400 text-xl font-cinzel">❄️</div>
+          <div class="absolute bottom-3 left-3 text-sky-400 text-xl font-cinzel">❄️</div>
+          <div class="absolute bottom-3 right-3 text-sky-400 text-xl font-cinzel">❄️</div>
+
+          <!-- Academy Header -->
+          <div class="text-center space-y-2 border-b border-sky-200 pb-5">
+            <div class="flex items-center justify-center gap-2">
+              <span class="text-xl">🌬️</span>
+              <span class="text-xs uppercase font-black tracking-widest text-sky-700 font-cinzel">Boreas Academy of Talents</span>
+              <span class="text-xl">❄️</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black tracking-wider text-sky-950">
+              北風學院｜隱藏版超能力認證書
+            </h2>
+            <div class="inline-block px-3.5 py-0.5 rounded-full bg-sky-100 border border-sky-300 text-[11px] font-black text-sky-800">
+              OFFICIAL SOFT-SKILL ACCREDITATION
+            </div>
+          </div>
+
+          <!-- Student & Certificate Info -->
+          <div class="grid grid-cols-2 gap-4 my-6 text-xs bg-white/90 p-4 rounded-2xl border border-sky-200 shadow-sm">
+            <div>
+              <span class="text-slate-500 font-bold">探險者姓名：</span>
+              <strong id="cert-student-name" class="text-sm font-black text-sky-900 ml-1">北風探險者</strong>
+            </div>
+            <div class="text-right">
+              <span class="text-slate-500 font-bold">鑑定日期：</span>
+              <span id="cert-date" class="font-mono font-bold text-slate-700 ml-1">2026.11.01</span>
+            </div>
+            <div>
+              <span class="text-slate-500 font-bold">技能系別：</span>
+              <span id="cert-category" class="font-black text-sky-700 ml-1">Ⅰ. 生存適應系</span>
+            </div>
+            <div class="text-right">
+              <span class="text-slate-500 font-bold">證書序號：</span>
+              <span id="cert-sn" class="font-mono text-[10px] text-slate-400 ml-1">BOREAS-SKILL-8941</span>
+            </div>
+          </div>
+
+          <!-- Skill Detail Display -->
+          <div class="flex flex-col sm:flex-row items-center gap-6 p-4 rounded-2xl bg-white/80 border border-sky-200 my-6 shadow-sm">
+            <div class="w-28 h-28 sm:w-32 sm:h-32 flex-shrink-0 rounded-2xl overflow-hidden border-2 border-sky-300 shadow-md relative bg-sky-50">
+              <img 
+                id="cert-skill-img" 
+                src="assets/images/01.jpg" 
+                alt="Skill Artwork" 
+                class="w-full h-full object-cover"
+                crossorigin="anonymous"
+              />
+            </div>
+            <div class="space-y-2 text-center sm:text-left flex-1">
+              <div class="inline-block px-2.5 py-0.5 text-xs font-black bg-sky-100 text-sky-800 rounded-lg border border-sky-300" id="cert-skill-tag">
+                適應力・新環境適應
+              </div>
+              <h3 id="cert-skill-title" class="text-xl sm:text-2xl font-black text-sky-950">
+                01｜異世界登入術
+              </h3>
+              <p id="cert-skill-desc" class="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
+                被丟進新空間、新生活、新團體，不會立刻當機。就算內心正在載入 99%，表面還是能慢慢開始探索。
+              </p>
+            </div>
+          </div>
+
+          <!-- Student's Story / Reflection Quote Box -->
+          <div class="space-y-2 my-6">
+            <div class="flex items-center justify-between text-xs font-black text-sky-900">
+              <span class="flex items-center gap-1.5">
+                <span>📜</span>
+                <span>解鎖實證錄（事件與感受）：</span>
+              </span>
+              <span id="cert-word-count" class="text-[10px] font-mono text-slate-500">58 字</span>
+            </div>
+            <div class="relative p-5 rounded-2xl bg-white border border-sky-200 shadow-sm">
+              <span class="absolute top-2 left-3 text-2xl text-sky-300 font-serif">“</span>
+              <p id="cert-student-story" class="text-xs sm:text-sm text-slate-700 leading-relaxed pl-3 font-medium italic">
+                學生心得將顯示於此...
+              </p>
+              <span class="absolute bottom-1 right-3 text-2xl text-sky-300 font-serif">”</span>
+            </div>
+          </div>
+
+          <!-- Footer Stamp & Seal Area -->
+          <div class="pt-4 border-t border-sky-200 flex items-center justify-between">
+            <div class="text-[10px] text-slate-500 space-y-0.5 font-medium">
+              <div>BOREAS ACADEMY SOFT-SKILL VERIFICATION SYSTEM</div>
+              <div>本證書經由北風學院技能鑑定演算法核准生效</div>
+            </div>
+
+            <!-- Official Golden Wax Stamp Badge -->
+            <div class="relative stamp-anim">
+              <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-amber-500 bg-gradient-to-tr from-amber-100 via-amber-50 to-amber-200 flex flex-col items-center justify-center p-1 text-center shadow-lg transform rotate-[-8deg] ring-2 ring-amber-300">
+                <div class="text-[8px] font-black uppercase tracking-widest text-amber-900 font-cinzel">BOREAS</div>
+                <div class="text-xs sm:text-sm font-black text-amber-800">官方認證</div>
+                <div class="text-[7px] text-amber-700 font-extrabold">★ 審定合格 ★</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons After Unlock -->
+      <div class="flex flex-wrap items-center justify-center gap-4 pt-4">
+        <button 
+          onclick="downloadCertificateImage()" 
+          class="px-6 py-3.5 bg-gradient-to-r from-sky-500 to-cyan-600 hover:from-sky-600 hover:to-cyan-700 text-white font-black text-sm rounded-2xl shadow-lg shadow-sky-400/30 hover:scale-105 transition flex items-center gap-2"
+        >
+          <span>📸</span>
+          <span>儲存 / 下載高清認證圖 (PNG)</span>
+        </button>
+
+        <button 
+          onclick="startSuperpowerDraw()" 
+          class="px-6 py-3.5 bg-white hover:bg-sky-50 text-sky-900 font-extrabold text-sm rounded-2xl border border-sky-300 transition flex items-center gap-2 shadow-sm"
+        >
+          <span>🔄</span>
+          <span>再抽下一張超能力</span>
+        </button>
+
+        <a 
+          href="https://docs.google.com/spreadsheets/d/1241W5QX5EBYdZ6UTqANtpBu85d2_h50hG38D6zmfeMw/edit?usp=sharing" 
+          target="_blank" 
+          class="px-6 py-3.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-extrabold text-sm rounded-2xl border border-emerald-300 transition flex items-center gap-2 shadow-sm"
+        >
+          <span>📊</span>
+          <span>查看 Google 試算表</span>
+        </a>
+
+        <button 
+          onclick="openSheetSetupModal()" 
+          class="px-4 py-3.5 bg-white hover:bg-sky-50 text-slate-700 font-bold text-xs rounded-2xl border border-sky-200 transition flex items-center gap-1.5 shadow-sm"
+          title="設定 Google Apps Script Web App 同步網址"
+        >
+          <span>⚙️</span>
+          <span>試算表同步設定</span>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ========================================== -->
+  <!-- MODAL 1: 30+1 SUPERPOWER CODEX (全圖鑑)     -->
+  <!-- ========================================== -->
+  <div id="modal-codex" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-6">
+    <div class="bg-white border-2 border-sky-200 rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-6 border-b border-sky-100 flex items-center justify-between bg-sky-50/70">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">📖</span>
+            <h3 class="text-lg sm:text-xl font-black text-sky-950">Boreas 北風學院｜超能力全典圖鑑</h3>
+          </div>
+          <p class="text-xs text-slate-600 font-medium">探索全套 30 款學院隱藏超能力 ＋ 1 款自創專屬超能力！</p>
+        </div>
+        <button onclick="closeCodexModal()" class="w-8 h-8 rounded-full bg-white hover:bg-slate-100 text-slate-500 hover:text-slate-800 flex items-center justify-center transition border border-slate-200 shadow-sm">
+          ✕
+        </button>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="px-4 py-2 border-b border-sky-100 bg-sky-50/30 overflow-x-auto flex gap-1.5 scrollbar-none text-xs">
+        <button onclick="filterCodex('all')" class="codex-tab active px-3 py-1.5 rounded-xl font-extrabold bg-sky-600 text-white whitespace-nowrap shadow-sm">全部 (31)</button>
+        <button onclick="filterCodex(1)" class="codex-tab px-3 py-1.5 rounded-xl font-bold bg-white text-slate-700 hover:bg-sky-100 whitespace-nowrap border border-sky-200">Ⅰ.生存適應</button>
+        <button onclick="filterCodex(2)" class="codex-tab px-3 py-1.5 rounded-xl font-bold bg-white text-slate-700 hover:bg-sky-100 whitespace-nowrap border border-sky-200">Ⅱ.團隊共鬥</button>
+        <button onclick="filterCodex(3)" class="codex-tab px-3 py-1.5 rounded-xl font-bold bg-white text-slate-700 hover:bg-sky-100 whitespace-nowrap border border-sky-200">Ⅲ.任務執行</button>
+        <button onclick="filterCodex(4)" class="codex-tab px-3 py-1.5 rounded-xl font-bold bg-white text-slate-700 hover:bg-sky-100 whitespace-nowrap border border-sky-200">Ⅳ.大腦探索</button>
+        <button onclick="filterCodex(5)" class="codex-tab px-3 py-1.5 rounded-xl font-bold bg-white text-slate-700 hover:bg-sky-100 whitespace-nowrap border border-sky-200">Ⅴ.內在調節</button>
+        <button onclick="filterCodex(6)" class="codex-tab px-3 py-1.5 rounded-xl font-bold bg-white text-slate-700 hover:bg-sky-100 whitespace-nowrap border border-sky-200">Ⅵ.北風限定</button>
+      </div>
+
+      <!-- Codex Grid List -->
+      <div id="codex-list-container" class="p-4 sm:p-6 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- MODAL 2: ARCHIVE MODAL (我的成就冊)         -->
+  <!-- ========================================== -->
+  <div id="modal-archive" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-6">
+    <div class="bg-white border-2 border-sky-200 rounded-3xl max-w-3xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-6 border-b border-sky-100 flex items-center justify-between bg-sky-50/70">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🏆</span>
+          <div>
+            <h3 class="text-lg font-black text-sky-950">我的已解鎖超能力檔案庫</h3>
+            <p class="text-xs text-slate-600 font-medium">已自動保存在本機瀏覽器中</p>
+          </div>
+        </div>
+        <button onclick="closeArchiveModal()" class="w-8 h-8 rounded-full bg-white hover:bg-slate-100 text-slate-500 hover:text-slate-800 flex items-center justify-center transition border border-slate-200 shadow-sm">
+          ✕
+        </button>
+      </div>
+
+      <!-- List of certified skills -->
+      <div id="archive-list-container" class="p-4 sm:p-6 overflow-y-auto space-y-4">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- MODAL 3: GOOGLE SHEET SYNC SETUP (試算表同步) -->
+  <!-- ========================================== -->
+  <div id="modal-sheet-setup" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-6">
+    <div class="bg-white border-2 border-sky-200 rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-6 border-b border-sky-100 flex items-center justify-between bg-emerald-50/70">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl">📊</span>
+          <div>
+            <h3 class="text-lg font-black text-emerald-950">Google 試算表自動同步設定</h3>
+            <p class="text-xs text-emerald-700 font-medium">學生點擊「儲存」或「技能鑑定」時，自動寫入姓名、技能與心得</p>
+          </div>
+        </div>
+        <button onclick="closeSheetSetupModal()" class="w-8 h-8 rounded-full bg-white hover:bg-slate-100 text-slate-500 hover:text-slate-800 flex items-center justify-center transition border border-slate-200 shadow-sm">
+          ✕
+        </button>
+      </div>
+
+      <!-- Content -->
+      <div class="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed">
+        
+        <!-- Target Sheet Link -->
+        <div class="p-3.5 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">📁</span>
+            <div>
+              <div class="text-[11px] font-bold text-sky-800">目標 Google 試算表：</div>
+              <div class="text-xs font-mono text-slate-600 truncate max-w-xs sm:max-w-md">1241W5QX5EBYdZ6UTqANtpBu85d2_h50hG38D6zmfeMw</div>
+            </div>
+          </div>
+          <a href="https://docs.google.com/spreadsheets/d/1241W5QX5EBYdZ6UTqANtpBu85d2_h50hG38D6zmfeMw/edit?usp=sharing" target="_blank" class="px-3 py-1.5 bg-white hover:bg-sky-100 text-sky-800 border border-sky-300 rounded-xl text-xs font-bold transition flex items-center gap-1 shadow-sm whitespace-nowrap">
+            <span>開啟試算表</span>
+            <span>↗</span>
+          </a>
+        </div>
+
+        <!-- Setup Steps -->
+        <div class="space-y-2">
+          <div class="font-extrabold text-slate-800 text-xs sm:text-sm flex items-center gap-1.5">
+            <span>⚙️</span>
+            <span>只需 3 步驟完成全自動串接（耗時約 30 秒）：</span>
+          </div>
+
+          <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-600 bg-slate-50 p-3.5 rounded-2xl border border-slate-200 font-medium">
+            <li>打開上述 Google 試算表，點選上方選單的 <strong>「擴充功能」 ➔ 「Apps Script」</strong>。</li>
+            <li>將編輯器裡面的預設程式碼清空，貼上下方的 Apps Script 腳本。</li>
+            <li>點選右上角 <strong>「部署」 ➔ 「新增部署作業」</strong>，齒輪選擇 <strong>「網路應用程式」</strong>，並將「誰可以存取」設為 <strong>「所有人 (Anyone)」</strong> ➔ 點擊部署，複製生成的「網址」貼在下方文字框後儲存！</li>
+          </ol>
+        </div>
+
+        <!-- Code Block -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between text-xs font-bold text-slate-700">
+            <span>📋 Google Apps Script 程式碼：</span>
+            <button onclick="copyAppsScriptCode()" class="text-xs text-sky-600 hover:text-sky-800 font-bold underline flex items-center gap-1">
+              <span>複製程式碼</span>
+            </button>
+          </div>
+          <pre id="gas-code-block" class="bg-slate-900 text-sky-200 p-3.5 rounded-2xl font-mono text-[11px] overflow-x-auto leading-relaxed border border-slate-800 select-all">function doPost(e) {
+  var ss = SpreadsheetApp.openById("1241W5QX5EBYdZ6UTqANtpBu85d2_h50hG38D6zmfeMw");
+  var sheet = ss.getActiveSheet();
+  var name = (e.parameter && e.parameter.name) ? e.parameter.name : "";
+  var skill = (e.parameter && e.parameter.skill) ? e.parameter.skill : "";
+  var story = (e.parameter && e.parameter.story) ? e.parameter.story : "";
+  if (!name && e.postData && e.postData.contents) {
+    try {
+      var d = JSON.parse(e.postData.contents);
+      name = d.name || "";
+      skill = d.skill || "";
+      story = d.story || "";
+    } catch(err) {}
+  }
+  sheet.appendRow([name, skill, story]);
+  return ContentService.createTextOutput(JSON.stringify({status: "success"}))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+function doGet(e) { return doPost(e); }</pre>
+        </div>
+
+        <!-- URL Input & Save -->
+        <div class="p-4 bg-emerald-50/70 rounded-2xl border border-emerald-200 space-y-2.5">
+          <label class="block text-xs font-black text-emerald-900">
+            🔗 貼上你的 Google Apps Script 網路應用程式網址 (Web App URL)：
+          </label>
+          <div class="flex gap-2">
+            <input 
+              type="text" 
+              id="gas-url-input" 
+              placeholder="https://script.google.com/macros/s/AKfycb.../exec" 
+              class="flex-1 bg-white border border-slate-300 focus:border-emerald-500 rounded-xl px-3 py-2 text-xs text-slate-900 outline-none"
+            />
+            <button onclick="saveGasUrl()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow transition whitespace-nowrap">
+              儲存網址
+            </button>
+          </div>
+          <div class="flex items-center justify-between text-[11px] text-emerald-700 pt-0.5">
+            <span>* 儲存後將保存在本機瀏覽器中，學生只要點擊儲存就會自動同步！</span>
+            <button onclick="testSendToSheet()" class="text-xs font-bold text-emerald-800 underline hover:text-emerald-950">
+              🧪 測試發送一筆資料
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Audio Tone Synthesizer for SFX (No external mp3 needed) -->
+  <script>
+    function playSfx(type) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        if (type === 'draw') {
+          // North wind harp chord
+          const notes = [440, 554.37, 659.25, 880];
+          notes.forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.08);
+            gain.gain.setValueAtTime(0.12, ctx.currentTime + idx * 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.08 + 0.4);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(ctx.currentTime + idx * 0.08);
+            osc.stop(ctx.currentTime + idx * 0.08 + 0.45);
+          });
+        } else if (type === 'fanfare') {
+          // Victory trumpet
+          const chords = [523.25, 659.25, 783.99, 1046.50];
+          chords.forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.09);
+            gain.gain.setValueAtTime(0.18, ctx.currentTime + idx * 0.09);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.09 + 0.8);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(ctx.currentTime + idx * 0.09);
+            osc.stop(ctx.currentTime + idx * 0.09 + 0.85);
+          });
+        }
+      } catch (e) {
+        // AudioContext might be restricted until user interaction
+      }
+    }
+
+    function showToast(msg, icon = '✨') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'pointer-events-auto bg-white border-2 border-sky-300 text-slate-800 px-4 py-2.5 rounded-2xl shadow-xl flex items-center gap-2 text-xs font-bold transform translate-y-4 opacity-0 transition-all duration-300';
+      toast.innerHTML = `<span class="text-base">${icon}</span><span>${msg}</span>`;
+      container.appendChild(toast);
+      
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-4', 'opacity-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    function cheerBoreasHero() {
+      playSfx('draw');
+      try {
+        confetti({
+          particleCount: 35,
+          spread: 60,
+          origin: { y: 0.35 }
+        });
+      } catch(e) {}
+      const cheers = [
+        "「呼～北風小超人為你吹來滿滿好運！今天必抽到你的命定超能力！✨」",
+        "「在北風學院的生活裡，你早已悄悄覺醒了許多驚人潛能！💪」",
+        "「每位北風探險者都是身懷絕技的小超人，快點擊開始抽牌吧！⚡」"
+      ];
+      const cheer = cheers[Math.floor(Math.random() * cheers.length)];
+      showToast(cheer, '🌬️');
+    }
+  </script>
+
+  <!-- Superpower Catalog Data & App Core Logic -->
+  <script>
+    // 30 Core Superpowers Catalog
+    const SUPERPOWERS = [
+      // Ⅰ. 生存適應系
+      {
+        id: 1,
+        num: "01",
+        categoryIdx: 1,
+        category: "Ⅰ. 生存適應系",
+        categorySub: "新手村也能活得很好",
+        categoryColor: "emerald",
+        name: "異世界登入術",
+        tag: "適應力・新環境適應",
+        desc: "被丟進新空間、新生活、新團體，不會立刻當機。就算內心正在載入 99%，表面還是能慢慢開始探索。",
+        image: "assets/images/01.jpg"
+      },
+      {
+        id: 2,
+        num: "02",
+        categoryIdx: 1,
+        category: "Ⅰ. 生存適應系",
+        categorySub: "新手村也能活得很好",
+        categoryColor: "emerald",
+        name: "尷尬結界突破術",
+        tag: "連結感・人際互動",
+        desc: "能從不知道要說什麼，到找到一句話、一個共同話題，成功讓兩個原本不熟的人類開始連線。",
+        image: "assets/images/02.jpg"
+      },
+      {
+        id: 3,
+        num: "03",
+        categoryIdx: 1,
+        category: "Ⅰ. 生存適應系",
+        categorySub: "新手村也能活得很好",
+        categoryColor: "emerald",
+        name: "合法放電領域",
+        tag: "Free Play・有品質的放電",
+        desc: "把多餘精力轉化成歡笑、遊戲和有創意的混亂。不是單純把電放光，而是放完之後大家還更有精神。",
+        image: "assets/images/03.jpg"
+      },
+      {
+        id: 4,
+        num: "04",
+        categoryIdx: 1,
+        category: "Ⅰ. 生存適應系",
+        categorySub: "新手村也能活得很好",
+        categoryColor: "emerald",
+        name: "自己人召喚術",
+        tag: "文化力・歸屬感・認同",
+        desc: "能把一群人從「只是剛好在同一個地方」，慢慢變成「這是我們的地方，而且我們有自己的梗」。",
+        image: "assets/images/04.jpg"
+      },
+      {
+        id: 5,
+        num: "05",
+        categoryIdx: 1,
+        category: "Ⅰ. 生存適應系",
+        categorySub: "新手村也能活得很好",
+        categoryColor: "emerald",
+        name: "日常快樂偵測器",
+        tag: "生活力・享受生活",
+        desc: "能從吃飯、聊天、散步、發呆裡找到快樂。明白人生不只有完成任務，活得有滋有味也是一種本事。",
+        image: "assets/images/05.jpg"
+      },
+
+      // Ⅱ. 團隊共鬥系
+      {
+        id: 6,
+        num: "06",
+        categoryIdx: 2,
+        category: "Ⅱ. 團隊共鬥系",
+        categorySub: "一群人不互相傷害",
+        categoryColor: "orange",
+        name: "隊友同步率提升",
+        tag: "共榮感・合作力",
+        desc: "能從「我只要做好我的部分」，進化到「怎樣才能讓整隊都順利」。知道合作不是每個人各做各的就好。",
+        image: "assets/images/06.jpg"
+      },
+      {
+        id: 7,
+        num: "07",
+        categoryIdx: 2,
+        category: "Ⅱ. 團隊共鬥系",
+        categorySub: "一群人不互相傷害",
+        categoryColor: "orange",
+        name: "豬隊友轉職術",
+        tag: "合作力・欣賞差異",
+        desc: "面對做事方式不同、步調不同的人，不急著判定對方是豬隊友，而是試著找到彼此能合作的方法。",
+        image: "assets/images/07.jpg"
+      },
+      {
+        id: 8,
+        num: "08",
+        categoryIdx: 2,
+        category: "Ⅱ. 團隊共鬥系",
+        categorySub: "一群人不互相傷害",
+        categoryColor: "orange",
+        name: "人類語言解碼器",
+        tag: "溝通力・理解他人",
+        desc: "不只會把話說出去，也開始聽得懂別人在意什麼、自己真正想表達什麼，以及「隨便」有時候真的不只是隨便。",
+        image: "assets/images/08.jpg"
+      },
+      {
+        id: 9,
+        num: "09",
+        categoryIdx: 2,
+        category: "Ⅱ. 團隊共鬥系",
+        categorySub: "一群人不互相傷害",
+        categoryColor: "orange",
+        name: "臨時隊長召喚術",
+        tag: "領導力・組織協調",
+        desc: "沒有王冠、沒有超高薪，也可能沒人自願，但能在混亂中協助大家找到方向。真正的隊長不一定最大聲。",
+        image: "assets/images/09.jpg"
+      },
+      {
+        id: 10,
+        num: "10",
+        categoryIdx: 2,
+        category: "Ⅱ. 團隊共鬥系",
+        categorySub: "一群人不互相傷害",
+        categoryColor: "orange",
+        name: "鍋蓋承受者",
+        tag: "責任感・承擔責任",
+        desc: "能承認「這件事是我負責的」，出包時不立刻使用甩鍋技能，並且願意想辦法補救。",
+        image: "assets/images/10.jpg"
+      },
+
+      // Ⅲ. 任務執行系
+      {
+        id: 11,
+        num: "11",
+        categoryIdx: 3,
+        category: "Ⅲ. 任務執行系",
+        categorySub: "想法很美還要真的做出來",
+        categoryColor: "amber",
+        name: "腦洞合法化",
+        tag: "展現創意・創造可能性",
+        desc: "把「這想法也太奇怪了吧」變成「等等，好像真的可以試試看」。不保證每次成功，但保證不讓腦袋太早下班。",
+        image: "assets/images/11.jpg"
+      },
+      {
+        id: 12,
+        num: "12",
+        categoryIdx: 3,
+        category: "Ⅲ. 任務執行系",
+        categorySub: "想法很美還要真的做出來",
+        categoryColor: "amber",
+        name: "混亂預言家",
+        tag: "規劃設計・預想流程",
+        desc: "能在事情發生前先想想順序、資源和可能的意外。不是算命，而是盡量不要把「早知道」留到最後才說。",
+        image: "assets/images/12.jpg"
+      },
+      {
+        id: 13,
+        num: "13",
+        categoryIdx: 3,
+        category: "Ⅲ. 任務執行系",
+        categorySub: "想法很美還要真的做出來",
+        categoryColor: "amber",
+        name: "停止空想・立即啟動",
+        tag: "執行力・開始行動",
+        desc: "能把「我們應該可以做一個很棒的東西」變成第一個實際步驟。專治計畫討論三小時、實際進度零公分。",
+        image: "assets/images/13.jpg"
+      },
+      {
+        id: 14,
+        num: "14",
+        categoryIdx: 3,
+        category: "Ⅲ. 任務執行系",
+        categorySub: "想法很美還要真的做出來",
+        categoryColor: "amber",
+        name: "時間縫隙忍者",
+        tag: "自我管理・時間運用",
+        desc: "知道什麼該先做、什麼可以晚點做，也知道不能把所有任務都塞進最後一晚的宇宙縫隙裡。",
+        image: "assets/images/14.jpg"
+      },
+      {
+        id: 15,
+        num: "15",
+        categoryIdx: 3,
+        category: "Ⅲ. 任務執行系",
+        categorySub: "想法很美還要真的做出來",
+        categoryColor: "amber",
+        name: "爛攤子復原術",
+        tag: "執行力・問題處理・責任感",
+        desc: "當事情跟想像的不一樣，不會只站在旁邊說「完蛋了」。能找出問題、調整方法，讓任務繼續往前走。",
+        image: "assets/images/15.jpg"
+      },
+
+      // Ⅳ. 大腦探索系
+      {
+        id: 16,
+        num: "16",
+        categoryIdx: 4,
+        category: "Ⅳ. 大腦探索系",
+        categorySub: "腦袋不是只有一種使用方式",
+        categoryColor: "purple",
+        name: "腦袋轉彎漂移",
+        tag: "探索新思維・思考彈性",
+        desc: "發現原本的方法走不通時，能換個角度想想，而不是把頭撞在同一面牆上三次，再怪牆太硬。",
+        image: "assets/images/16.jpg"
+      },
+      {
+        id: 17,
+        num: "17",
+        categoryIdx: 4,
+        category: "Ⅳ. 大腦探索系",
+        categorySub: "腦袋不是只有一種使用方式",
+        categoryColor: "purple",
+        name: "興趣引力場",
+        tag: "自主閱讀・主動探索",
+        desc: "能被自己真正感興趣的東西吸進去，從一本書、一部影片或一個奇怪的問題，開啟自己的探索支線。",
+        image: "assets/images/17.jpg"
+      },
+      {
+        id: 18,
+        num: "18",
+        categoryIdx: 4,
+        category: "Ⅳ. 大腦探索系",
+        categorySub: "腦袋不是只有一種使用方式",
+        categoryColor: "purple",
+        name: "自我偵查科",
+        tag: "探索自我・自我覺察",
+        desc: "開始發現自己為什麼會生氣、拖延、興奮或逃避。案件不一定破得完，但至少知道嫌疑人可能就是自己的某個習慣。",
+        image: "assets/images/18.jpg"
+      },
+      {
+        id: 19,
+        num: "19",
+        categoryIdx: 4,
+        category: "Ⅳ. 大腦探索系",
+        categorySub: "腦袋不是只有一種使用方式",
+        categoryColor: "purple",
+        name: "標準答案粉碎機",
+        tag: "探索新思維・獨立思考",
+        desc: "不會因為大家都這樣想，就認定只能這樣想。願意追問、找證據、提出不同可能，而不是看到標準答案就自動跪拜。",
+        image: "assets/images/19.jpg"
+      },
+      {
+        id: 20,
+        num: "20",
+        categoryIdx: 4,
+        category: "Ⅳ. 大腦探索系",
+        categorySub: "腦袋不是只有一種使用方式",
+        categoryColor: "purple",
+        name: "自己的導師召喚術",
+        tag: "自主學習・作自己的老師",
+        desc: "能試著決定自己想學什麼、怎麼學、學到哪裡，卡住時也會想辦法找資源。老師不在旁邊時，學習也不會直接關機。",
+        image: "assets/images/20.jpg"
+      },
+
+      // Ⅴ. 內在調節系
+      {
+        id: 21,
+        num: "21",
+        categoryIdx: 5,
+        category: "Ⅴ. 內在調節系",
+        categorySub: "不只管得住自己也懂得照顧自己",
+        categoryColor: "cyan",
+        name: "全場慢速結界",
+        tag: "放慢腳步・調整節奏",
+        desc: "在所有人都急著衝刺時，還能停下來想想：現在真的需要加速嗎？還是大家只是一起慌張？",
+        image: "assets/images/21.jpg"
+      },
+      {
+        id: 22,
+        num: "22",
+        categoryIdx: 5,
+        category: "Ⅴ. 內在調節系",
+        categorySub: "不只管得住自己也懂得照顧自己",
+        categoryColor: "cyan",
+        name: "腦內分頁管理員",
+        tag: "專注力・自我管理",
+        desc: "能察覺自己什麼時候分心、什麼時候需要休息，試著把腦袋裡開了 87 個分頁的狀態，整理成還能正常運作的樣子。",
+        image: "assets/images/22.jpg"
+      },
+      {
+        id: 23,
+        num: "23",
+        categoryIdx: 5,
+        category: "Ⅴ. 內在調節系",
+        categorySub: "不只管得住自己也懂得照顧自己",
+        categoryColor: "cyan",
+        name: "情緒翻譯蒟蒻",
+        tag: "情緒覺察・溝通表達",
+        desc: "能慢慢把「我就是很煩」翻譯成「我可能是因為事情太多、不知道怎麼開始」。不是消除情緒，而是讓自己更懂得發生了什麼。",
+        image: "assets/images/23.jpg"
+      },
+      {
+        id: 24,
+        num: "24",
+        categoryIdx: 5,
+        category: "Ⅴ. 內在調節系",
+        categorySub: "不只管得住自己也懂得照顧自己",
+        categoryColor: "cyan",
+        name: "不會就不會護盾",
+        tag: "接納限制・願意求助",
+        desc: "能承認自己還不會、聽不懂或需要幫忙。知道說出「我不知道」不是遊戲結束，而是下一個任務的起點。",
+        image: "assets/images/24.jpg"
+      },
+      {
+        id: 25,
+        num: "25",
+        categoryIdx: 5,
+        category: "Ⅴ. 內在調節系",
+        categorySub: "不只管得住自己也懂得照顧自己",
+        categoryColor: "cyan",
+        name: "小進度放大鏡",
+        tag: "自我肯定・持續行動",
+        desc: "不只看最後有沒有拿到大獎，也能發現自己今天多試了一次、多問了一句、多完成了一小步。",
+        image: "assets/images/25.jpg"
+      },
+
+      // Ⅵ. 北風限定系
+      {
+        id: 26,
+        num: "26",
+        categoryIdx: 6,
+        category: "Ⅵ. 北風限定系",
+        categorySub: "這些技能不是每間學院都有",
+        categoryColor: "sky",
+        name: "冷門梗共振術",
+        tag: "文化創造・群體認同",
+        desc: "能和一群人一起創造只有自己人懂的笑點、儀式和共同記憶。外人看不懂沒關係，自己人笑成一團就算成功。",
+        image: "assets/images/26.jpg"
+      },
+      {
+        id: 27,
+        num: "27",
+        categoryIdx: 6,
+        category: "Ⅵ. 北風限定系",
+        categorySub: "這些技能不是每間學院都有",
+        categoryColor: "sky",
+        name: "無所事事合理化",
+        tag: "生活力・休息與節奏",
+        desc: "知道休息不一定是偷懶，沒有每分每秒都在產出，也不代表人生進度落後。能把自己充飽電，再回來面對世界。",
+        image: "assets/images/27.jpg"
+      },
+      {
+        id: 28,
+        num: "28",
+        categoryIdx: 6,
+        category: "Ⅵ. 北風限定系",
+        categorySub: "這些技能不是每間學院都有",
+        categoryColor: "sky",
+        name: "奇怪想法實體化",
+        tag: "創意・規劃・實作",
+        desc: "能把腦中的奇怪點子變成真的作品、活動或企畫。即使成品跟原本想像差了十萬八千里，也至少成功讓想法落地。",
+        image: "assets/images/28.jpg"
+      },
+      {
+        id: 29,
+        num: "29",
+        categoryIdx: 6,
+        category: "Ⅵ. 北風限定系",
+        categorySub: "這些技能不是每間學院都有",
+        categoryColor: "sky",
+        name: "北風導航系統",
+        tag: "自主選擇・為自己負責",
+        desc: "不一定知道最終目的地在哪裡，但開始能判斷自己想往哪裡走、為什麼選這條路，以及走錯時要怎麼調整。",
+        image: "assets/images/29.jpg"
+      },
+      {
+        id: 30,
+        num: "30",
+        categoryIdx: 6,
+        category: "Ⅵ. 北風限定系",
+        categorySub: "這些技能不是每間學院都有",
+        categoryColor: "sky",
+        name: "尚未命名的超能力",
+        tag: "自我探索・持續發現",
+        desc: "還說不清楚自己有什麼厲害的地方也沒關係。願意繼續探索、嘗試和認識自己，這項技能就還在開發中。",
+        image: "assets/images/30.jpg"
+      }
+    ];
+
+    // Special Card: 我的專屬超能力 (Always present in 4-card draw)
+    function createCustomSuperpowerCard() {
+      return {
+        id: 0,
+        isCustom: true,
+        num: "★",
+        categoryIdx: 7,
+        category: "👑 傳奇自訂系",
+        categorySub: "學院生活獨創絕技",
+        categoryColor: "rainbow",
+        name: "我的專屬超能力",
+        customName: "",
+        tag: "個人特化・獨門奧義",
+        desc: "你在北風學院的日常修練中，發明了一種不在圖鑑上的神技！由你親自命名並賦予傳奇定義！",
+        image: "custom_avatar"
+      };
+    }
+
+    // App State
+    let currentStudentName = "北風冒險者";
+    let drawnCards = [];
+    let rerollChances = 1;
+    let selectedCard = null;
+    let unlockedArchive = [];
+
+    // Init on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadArchive();
+      updateNavBadge();
+      checkSheetSyncStatus();
+    });
+
+    function getStudentName() {
+      const input = document.getElementById('student-name-input');
+      if (input && input.value.trim()) {
+        return input.value.trim();
+      }
+      return currentStudentName;
+    }
+
+    // Navigation View Switcher
+    function showView(viewId) {
+      const views = ['view-cover', 'view-draw', 'view-unlock', 'view-result'];
+      views.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          if (id === viewId) {
+            el.classList.remove('hidden');
+          } else {
+            el.classList.add('hidden');
+          }
+        }
+      });
+      if (viewId === 'view-result') {
+        checkSheetSyncStatus();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goToCover() {
+      showView('view-cover');
+    }
+
+    function backToCards() {
+      showView('view-draw');
+    }
+
+    // ==========================================
+    // DRAW CARDS LOGIC (抽籤機制 - 呼請北風)
+    // ==========================================
+    function startSuperpowerDraw() {
+      currentStudentName = getStudentName();
+      rerollChances = 1;
+      updateRerollUi();
+
+      // Play Sound
+      playSfx('draw');
+
+      // Draw 4 cards: 1 Custom + 3 Random distinct from 1..30
+      const customCard = createCustomSuperpowerCard();
+      const shuffled30 = [...SUPERPOWERS].sort(() => 0.5 - Math.random());
+      const selected3 = shuffled30.slice(0, 3);
+
+      drawnCards = [customCard, ...selected3];
+      renderDrawnCards();
+      showView('view-draw');
+      showToast(`呼～北風為【${currentStudentName}】召喚出 4 張超能力籤！`, '🌬️');
+    }
+
+    function renderDrawnCards() {
+      const container = document.getElementById('cards-container');
+      container.innerHTML = '';
+
+      drawnCards.forEach((card, index) => {
+        const cardEl = document.createElement('div');
+        
+        // Custom card styling vs standard cards
+        const isCustom = card.isCustom;
+        const borderClass = isCustom 
+          ? 'rainbow-border p-1 rounded-3xl shadow-xl' 
+          : 'boreas-card rounded-3xl p-5';
+
+        let imageHtml = '';
+        if (isCustom) {
+          imageHtml = `
+            <div class="w-full h-44 rounded-2xl overflow-hidden bg-gradient-to-tr from-sky-100 to-indigo-100 border-2 border-purple-300 relative group shadow-inner">
+              <img 
+                src="assets/images/boreas_superhero.jpg" 
+                alt="北風小超人" 
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-108"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent flex flex-col justify-end p-2.5">
+                <span class="text-xs font-black text-amber-300 tracking-wider">★ 玩家專屬自訂卡 ★</span>
+                <span class="text-[10px] text-white/95 font-bold">點擊後可自由命名神技</span>
+              </div>
+            </div>
+          `;
+        } else {
+          imageHtml = `
+            <div class="w-full h-44 rounded-2xl overflow-hidden bg-sky-50 border border-sky-200 relative group shadow-sm">
+              <img 
+                src="${card.image}" 
+                alt="${card.name}" 
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                loading="lazy"
+              />
+              <span class="absolute top-2 left-2 px-2 py-0.5 rounded-lg bg-white/90 backdrop-blur-md text-[10px] font-mono font-black text-sky-700 border border-sky-200 shadow-sm">
+                #${card.num}
+              </span>
+            </div>
+          `;
+        }
+
+        const colorMap = {
+          emerald: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+          orange: 'bg-orange-100 text-orange-800 border-orange-300',
+          amber: 'bg-amber-100 text-amber-800 border-amber-300',
+          purple: 'bg-purple-100 text-purple-800 border-purple-300',
+          cyan: 'bg-cyan-100 text-cyan-800 border-cyan-300',
+          sky: 'bg-sky-100 text-sky-800 border-sky-300',
+          rainbow: 'bg-gradient-to-r from-pink-100 via-purple-100 to-sky-100 text-indigo-900 border-purple-300'
+        };
+        const categoryBadgeColor = colorMap[card.categoryColor] || 'bg-sky-100 text-sky-800 border-sky-300';
+
+        const innerContent = `
+          <div class="h-full flex flex-col justify-between space-y-3.5 ${isCustom ? 'bg-white rounded-[22px] p-5' : ''}">
+            <!-- Top Controls: Checkbox & Category -->
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2 py-0.5 text-[10px] font-extrabold rounded-md border ${categoryBadgeColor}">
+                ${card.category}
+              </span>
+
+              <!-- Reroll Checkbox -->
+              <label class="flex items-center gap-1.5 cursor-pointer bg-sky-50 hover:bg-sky-100 px-2.5 py-1 rounded-xl border border-sky-200 text-slate-700 transition" title="勾選可於下方使用重抽換掉這張牌">
+                <input 
+                  type="checkbox" 
+                  id="chk-reroll-${index}" 
+                  class="reroll-checkbox w-3.5 h-3.5 rounded text-rose-500 focus:ring-rose-400 cursor-pointer"
+                  ${rerollChances <= 0 ? 'disabled' : ''}
+                />
+                <span class="text-[10px] font-bold ${rerollChances <= 0 ? 'text-slate-400 line-through' : 'text-slate-700'}">換這張</span>
+              </label>
+            </div>
+
+            <!-- Card Visual Illustration -->
+            ${imageHtml}
+
+            <!-- Card Info -->
+            <div class="space-y-1.5 flex-1">
+              <div class="text-[11px] font-extrabold text-sky-700">${card.tag}</div>
+              <h4 class="text-base sm:text-lg font-black text-slate-900 ${isCustom ? 'rainbow-text' : ''}">
+                ${card.name}
+              </h4>
+              <p class="text-xs text-slate-600 leading-relaxed line-clamp-3 font-medium">
+                ${card.desc}
+              </p>
+            </div>
+
+            <!-- Pick Button -->
+            <button 
+              onclick="selectCardForUnlock(${index})" 
+              class="w-full py-2.5 px-3 rounded-xl font-bold text-xs text-white ${isCustom ? 'bg-gradient-to-r from-purple-500 to-rose-500 hover:from-purple-600 hover:to-rose-600 shadow-md shadow-purple-200' : 'bg-sky-500 hover:bg-sky-600 shadow-md shadow-sky-200'} hover:scale-[1.02] active:scale-[0.98] transition flex items-center justify-center gap-1.5"
+            >
+              <span>👉</span>
+              <span>選擇此技能解鎖</span>
+            </button>
+          </div>
+        `;
+
+        cardEl.className = borderClass;
+        cardEl.innerHTML = innerContent;
+        container.appendChild(cardEl);
+      });
+    }
+
+    // ==========================================
+    // RE-ROLL LOGIC (重抽機制 - 限 1 次)
+    // ==========================================
+    function updateRerollUi() {
+      const text = document.getElementById('reroll-chance-text');
+      const btn = document.getElementById('btn-reroll');
+
+      if (rerollChances > 0) {
+        text.textContent = `剩餘 1 次`;
+        text.className = 'text-sm font-black text-amber-600';
+        btn.disabled = false;
+      } else {
+        text.textContent = `已用畢 (0次)`;
+        text.className = 'text-sm font-bold text-slate-400';
+        btn.disabled = true;
+      }
+    }
+
+    function executeReroll() {
+      if (rerollChances <= 0) {
+        showToast('重抽機會已用完囉！請在目前卡牌中選擇一張作答', '⚠️');
+        return;
+      }
+
+      // Check which cards are selected
+      const checkedIndices = [];
+      drawnCards.forEach((_, idx) => {
+        const chk = document.getElementById(`chk-reroll-${idx}`);
+        if (chk && chk.checked) {
+          checkedIndices.push(idx);
+        }
+      });
+
+      if (checkedIndices.length === 0) {
+        showToast('請先勾選你想換掉的卡牌右上角「換這張」核取方塊！', '💡');
+        return;
+      }
+
+      // Decrement chance
+      rerollChances = 0;
+      updateRerollUi();
+      playSfx('draw');
+
+      // Find pool of unpicked superpowers
+      const currentIds = drawnCards.map(c => c.id);
+      const remainingPool = SUPERPOWERS.filter(c => !currentIds.includes(c.id)).sort(() => 0.5 - Math.random());
+
+      // Replace checked cards
+      checkedIndices.forEach(idx => {
+        if (drawnCards[idx].isCustom) {
+          drawnCards[idx] = createCustomSuperpowerCard();
+        } else {
+          if (remainingPool.length > 0) {
+            drawnCards[idx] = remainingPool.pop();
+          }
+        }
+      });
+
+      renderDrawnCards();
+      showToast(`🌬️ 北風已為你吹來 ${checkedIndices.length} 張新卡牌！請選擇一張進行解鎖`, '🎲');
+    }
+
+    // ==========================================
+    // UNLOCK MISSION & INPUT (解鎖任務與35字檢驗)
+    // ==========================================
+    function selectCardForUnlock(index) {
+      selectedCard = drawnCards[index];
+      const isCustom = selectedCard.isCustom;
+
+      document.getElementById('unlock-user-name').textContent = currentStudentName;
+
+      // Render Spotlight Banner
+      const banner = document.getElementById('unlock-card-banner');
+      
+      let visualHtml = '';
+      let titleInputHtml = '';
+
+      if (isCustom) {
+        visualHtml = `
+          <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden flex-shrink-0 shadow-md border-2 border-purple-300 relative bg-sky-50">
+            <img src="assets/images/boreas_superhero.jpg" alt="北風小超人" class="w-full h-full object-cover" />
+          </div>
+        `;
+        titleInputHtml = `
+          <div class="space-y-1.5 pt-1">
+            <label class="block text-xs font-black text-amber-800">
+              🏷️ 為你的專屬超能力命名（請自行命名）：
+            </label>
+            <input 
+              type="text" 
+              id="custom-skill-input" 
+              placeholder="例如：深夜走廊心靈導師、午餐外送精算術、專案排版強迫症..." 
+              value="${selectedCard.customName || ''}"
+              oninput="handleCustomNameChange()"
+              class="w-full max-w-md bg-white border-2 border-sky-300 focus:border-amber-500 rounded-xl px-3.5 py-2 text-sm font-bold text-slate-900 outline-none shadow-sm"
+            />
+          </div>
+        `;
+      } else {
+        visualHtml = `
+          <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden bg-sky-50 border-2 border-sky-200 flex-shrink-0 shadow-md">
+            <img src="${selectedCard.image}" alt="${selectedCard.name}" class="w-full h-full object-cover" />
+          </div>
+        `;
+      }
+
+      banner.innerHTML = `
+        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5">
+          ${visualHtml}
+          <div class="space-y-2 text-center sm:text-left flex-1">
+            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+              <span class="px-2.5 py-0.5 text-xs font-black rounded-lg bg-sky-100 text-sky-800 border border-sky-300">
+                ${selectedCard.category}
+              </span>
+              <span class="px-2 py-0.5 text-xs font-mono font-bold text-slate-500">
+                ${selectedCard.tag}
+              </span>
+            </div>
+
+            <h3 class="text-2xl sm:text-3xl font-black text-sky-950">
+              ${isCustom ? (selectedCard.customName || '我的專屬超能力') : (selectedCard.num + '｜' + selectedCard.name)}
+            </h3>
+
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl font-medium">
+              ${selectedCard.desc}
+            </p>
+
+            ${titleInputHtml}
+          </div>
+        </div>
+      `;
+
+      // Clear textarea & reset counter
+      const textarea = document.getElementById('unlock-story-input');
+      textarea.value = '';
+      handleStoryInput();
+
+      showView('view-unlock');
+    }
+
+    function handleCustomNameChange() {
+      const input = document.getElementById('custom-skill-input');
+      if (input && selectedCard) {
+        selectedCard.customName = input.value.trim();
+      }
+    }
+
+    // 35 Characters Validation Rule
+    function handleStoryInput() {
+      const textarea = document.getElementById('unlock-story-input');
+      const text = textarea.value.trim();
+      const count = text.length;
+
+      const badge = document.getElementById('char-counter-badge');
+      const bar = document.getElementById('char-progress-bar');
+      const hint = document.getElementById('char-hint-msg');
+      const btn = document.getElementById('btn-submit-unlock');
+      const btnText = document.getElementById('submit-btn-text');
+
+      badge.textContent = `${count} / 35 字`;
+
+      const progress = Math.min(100, Math.round((count / 35) * 100));
+      bar.style.width = `${progress}%`;
+
+      if (count < 35) {
+        const diff = 35 - count;
+        hint.innerHTML = `⚠️ 還差 <strong class="text-amber-800">${diff}</strong> 個字才能進行技能鑑定喔！請多寫一點細節與感受～`;
+        hint.className = 'text-amber-700 font-bold text-xs';
+        bar.className = 'h-full bg-amber-400 transition-all duration-200';
+        badge.className = 'px-2.5 py-0.5 text-xs font-mono font-bold rounded-full bg-amber-100 text-amber-800 border border-amber-300';
+        
+        btn.disabled = true;
+        btnText.textContent = `技能鑑定（還差 ${diff} 字）`;
+      } else {
+        hint.innerHTML = `✨ 太棒了！已達成解鎖條件（目前已累積 <strong class="text-emerald-700">${count}</strong> 字），隨時可以送出！`;
+        hint.className = 'text-emerald-700 font-black text-xs';
+        bar.className = 'h-full bg-emerald-500 shadow-md shadow-emerald-400/50 transition-all duration-200';
+        badge.className = 'px-2.5 py-0.5 text-xs font-mono font-bold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300';
+
+        btn.disabled = false;
+        btnText.textContent = `⚡ 進行技能鑑定（正式解鎖！）`;
+      }
+    }
+
+    // ==========================================
+    // SUBMISSION & CERTIFICATE CREATION
+    // ==========================================
+    function submitSkillUnlock() {
+      const textarea = document.getElementById('unlock-story-input');
+      const story = textarea.value.trim();
+
+      if (story.length < 35) {
+        showToast('字數未達 35 字要求，請再多寫一些事件與心情喔！', '⚠️');
+        return;
+      }
+
+      // Check if custom card has a name
+      if (selectedCard.isCustom && !selectedCard.customName) {
+        const input = document.getElementById('custom-skill-input');
+        if (input && input.value.trim()) {
+          selectedCard.customName = input.value.trim();
+        } else {
+          selectedCard.customName = "生活大師・獨門神技";
+        }
+      }
+
+      // Play Sound Fanfare
+      playSfx('fanfare');
+
+      // Shoot Confetti
+      try {
+        confetti({
+          particleCount: 90,
+          spread: 75,
+          origin: { y: 0.6 }
+        });
+      } catch (e) {}
+
+      // Build Certificate
+      const certTitle = selectedCard.isCustom ? selectedCard.customName : `${selectedCard.num}｜${selectedCard.name}`;
+      const certDate = new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '.');
+      const certUid = 'BOREAS-SKILL-' + Math.random().toString(36).substring(2, 7).toUpperCase();
+
+      document.getElementById('cert-student-name').textContent = currentStudentName;
+      document.getElementById('cert-date').textContent = certDate;
+      document.getElementById('cert-category').textContent = selectedCard.category;
+      document.getElementById('cert-sn').textContent = certUid;
+
+      document.getElementById('cert-skill-title').textContent = certTitle;
+      document.getElementById('cert-skill-tag').textContent = selectedCard.tag;
+      document.getElementById('cert-skill-desc').textContent = selectedCard.desc;
+      document.getElementById('cert-student-story').textContent = story;
+      document.getElementById('cert-word-count').textContent = `${story.length} 字`;
+
+      const certImg = document.getElementById('cert-skill-img');
+      if (selectedCard.isCustom) {
+        certImg.src = 'assets/images/boreas_superhero.jpg';
+      } else {
+        certImg.src = selectedCard.image;
+      }
+
+      // Save to Archive
+      const record = {
+        id: selectedCard.id,
+        uid: certUid,
+        studentName: currentStudentName,
+        skillTitle: certTitle,
+        category: selectedCard.category,
+        tag: selectedCard.tag,
+        desc: selectedCard.desc,
+        story: story,
+        wordCount: story.length,
+        date: certDate,
+        image: selectedCard.image,
+        timestamp: Date.now()
+      };
+
+      saveRecordToArchive(record);
+
+      // Trigger Google Sheet sync
+      sendRecordToGoogleSheet(currentStudentName, certTitle, story);
+
+      showView('view-result');
+      showToast('恭喜！北風學院官方認證通過，成就證書已生效！', '🏆');
+    }
+
+    // ==========================================
+    // EXPORT & ARCHIVING FEATURES (截圖與留存)
+    // ==========================================
+    function downloadCertificateImage() {
+      const studentName = document.getElementById('cert-student-name').textContent;
+      const skillTitle = document.getElementById('cert-skill-title').textContent;
+      const studentStory = document.getElementById('cert-student-story').textContent;
+
+      // Sync record to Google Sheet when student clicks Save / Download
+      sendRecordToGoogleSheet(studentName, skillTitle, studentStory);
+
+      const card = document.getElementById('certificate-card');
+      showToast('正在生成超高清證書圖片中，請稍候...', '📸');
+
+      html2canvas(card, {
+        scale: 2, // High resolution retina display
+        useCORS: true,
+        backgroundColor: '#e0f2fe',
+        logging: false
+      }).then(canvas => {
+        const link = document.createElement('a');
+        const filename = `北風超能力認證_${studentName}_${skillTitle}.png`;
+        link.download = filename;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        showToast('證書圖片已成功儲存下載！', '🎉');
+      }).catch(err => {
+        console.error(err);
+        showToast('圖片生成失敗，請使用手機/電腦原生截圖快捷鍵留存！', '⚠️');
+      });
+    }
+
+    function copyResultText() {
+      const name = document.getElementById('cert-student-name').textContent;
+      const title = document.getElementById('cert-skill-title').textContent;
+      const category = document.getElementById('cert-category').textContent;
+      const tag = document.getElementById('cert-skill-tag').textContent;
+      const story = document.getElementById('cert-student-story').textContent;
+      const date = document.getElementById('cert-date').textContent;
+      const sn = document.getElementById('cert-sn').textContent;
+
+      const fullText = 
+`【北風學院｜隱藏版超能力官方認證】
+👤 探險者：${name}
+⚡ 解鎖技能：${title}
+🏷️ 核心特質：${tag}（${category}）
+📜 技能實證錄（事件與感受）：
+${story}
+---------------------------
+📅 認證時間：${date}
+🔖 證書編號：${sn}`;
+
+      navigator.clipboard.writeText(fullText).then(() => {
+        showToast('認證與心得文字已複製到剪貼簿！可貼至作業或記事本', '📋');
+      }).catch(() => {
+        showToast('文字已選取，請使用 Ctrl+C / Cmd+C 複製！', '📋');
+      });
+    }
+
+    // LocalStorage Management
+    function loadArchive() {
+      try {
+        const stored = localStorage.getItem('boreas_superpower_archive');
+        if (stored) {
+          unlockedArchive = JSON.parse(stored);
+        }
+      } catch (e) {
+        unlockedArchive = [];
+      }
+    }
+
+    function saveRecordToArchive(record) {
+      unlockedArchive.unshift(record);
+      try {
+        localStorage.setItem('boreas_superpower_archive', JSON.stringify(unlockedArchive));
+      } catch (e) {}
+      updateNavBadge();
+    }
+
+    function updateNavBadge() {
+      const badge = document.getElementById('nav-unlocked-count');
+      if (badge) {
+        badge.textContent = unlockedArchive.length;
+      }
+    }
+
+    function openArchiveModal() {
+      const container = document.getElementById('archive-list-container');
+      container.innerHTML = '';
+
+      if (unlockedArchive.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-slate-400 space-y-2">
+            <div class="text-4xl">📭</div>
+            <p class="text-sm font-bold text-slate-600">目前尚未解鎖任何超能力證書喔！</p>
+            <p class="text-xs text-slate-500">快按首頁「呼請北風」開始鑑定吧～</p>
+          </div>
+        `;
+      } else {
+        unlockedArchive.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'p-4 rounded-2xl bg-sky-50/70 border border-sky-200 space-y-2.5 shadow-sm';
+          card.innerHTML = `
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-sky-100 text-sky-800 border border-sky-300">${item.category}</span>
+              <span class="text-[11px] font-mono text-slate-500">${item.date}</span>
+            </div>
+            <h4 class="text-base font-black text-slate-900">${item.skillTitle}</h4>
+            <div class="text-xs text-sky-700 font-bold">${item.tag}</div>
+            <p class="text-xs text-slate-700 bg-white p-3 rounded-xl border border-sky-200 italic leading-relaxed">
+              "${item.story}"
+            </p>
+            <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1">
+              <span>探險者：<strong class="text-slate-800">${item.studentName}</strong></span>
+              <span>序號：${item.uid}</span>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      document.getElementById('modal-archive').classList.remove('hidden');
+    }
+
+    function closeArchiveModal() {
+      document.getElementById('modal-archive').classList.add('hidden');
+    }
+
+    // CODEX MODAL (30+1 圖鑑)
+    function openCodexModal() {
+      filterCodex('all');
+      document.getElementById('modal-codex').classList.remove('hidden');
+    }
+
+    function closeCodexModal() {
+      document.getElementById('modal-codex').classList.add('hidden');
+    }
+
+    function filterCodex(cat) {
+      // Tab styling
+      const tabs = document.querySelectorAll('.codex-tab');
+      tabs.forEach(t => {
+        t.classList.remove('bg-sky-600', 'text-white', 'shadow-sm');
+        t.classList.add('bg-white', 'text-slate-700');
+        if ((cat === 'all' && t.textContent.includes('全部')) || 
+            (cat !== 'all' && t.textContent.startsWith(['Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ'][cat - 1]))) {
+          t.classList.remove('bg-white', 'text-slate-700');
+          t.classList.add('bg-sky-600', 'text-white', 'shadow-sm');
+        }
+      });
+
+      const container = document.getElementById('codex-list-container');
+      container.innerHTML = '';
+
+      let list = SUPERPOWERS;
+      if (cat !== 'all') {
+        list = SUPERPOWERS.filter(s => s.categoryIdx === cat);
+      }
+
+      // Check which IDs are unlocked
+      const unlockedIds = new Set(unlockedArchive.map(a => a.id));
+
+      list.forEach(skill => {
+        const isUnlocked = unlockedIds.has(skill.id);
+        const item = document.createElement('div');
+        item.className = `p-3.5 rounded-2xl border transition-all ${isUnlocked ? 'bg-amber-50/80 border-amber-300 shadow-sm' : 'bg-white/90 border-sky-200'}`;
+        
+        item.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl overflow-hidden bg-sky-50 flex-shrink-0 border border-sky-200">
+              <img src="${skill.image}" alt="${skill.name}" class="w-full h-full object-cover" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-black text-sky-700">#${skill.num}</span>
+                ${isUnlocked ? '<span class="px-1.5 py-0.2 bg-amber-200 text-amber-900 text-[10px] rounded font-bold">★ 已解鎖</span>' : ''}
+              </div>
+              <h5 class="text-xs font-black text-slate-900 truncate">${skill.name}</h5>
+              <div class="text-[10px] text-sky-700 font-bold truncate">${skill.tag}</div>
+            </div>
+          </div>
+          <p class="text-[11px] text-slate-600 mt-2 line-clamp-2 leading-relaxed font-medium">
+            ${skill.desc}
+          </p>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    // ==========================================
+    // GOOGLE SHEET SYNCHRONIZATION
+    // Target: https://docs.google.com/spreadsheets/d/1241W5QX5EBYdZ6UTqANtpBu85d2_h50hG38D6zmfeMw/edit
+    // Columns: 姓名, 超能力名稱, 完整心得
+    // ==========================================
+    function checkSheetSyncStatus() {
+      const gasUrl = localStorage.getItem('boreas_gas_url') || localStorage.getItem('boreas_webhook_url');
+      const badge = document.getElementById('sheet-sync-status-badge');
+      if (badge) {
+        if (gasUrl && gasUrl.startsWith('http')) {
+          badge.innerHTML = `
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-bold shadow-sm">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Google 試算表已連線（自動同步生效中）</span>
+            </div>
+          `;
+        } else {
+          badge.innerHTML = `
+            <button onclick="openSheetSetupModal()" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 hover:bg-amber-100 border-2 border-amber-400 text-amber-900 text-xs font-black shadow-md transition hover:scale-105">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span>
+              <span>⚠️ Google 試算表尚未連線！點此貼上 Apps Script 網址（30秒搞定）➔</span>
+            </button>
+          `;
+        }
+      }
+    }
+
+    function openSheetSetupModal() {
+      const input = document.getElementById('gas-url-input');
+      const savedUrl = localStorage.getItem('boreas_gas_url') || localStorage.getItem('boreas_webhook_url') || '';
+      if (input) input.value = savedUrl;
+      document.getElementById('modal-sheet-setup').classList.remove('hidden');
+    }
+
+    function closeSheetSetupModal() {
+      document.getElementById('modal-sheet-setup').classList.add('hidden');
+    }
+
+    function copyAppsScriptCode() {
+      const code = document.getElementById('gas-code-block').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        showToast('Apps Script 程式碼已複製到剪貼簿！', '📋');
+      }).catch(() => {
+        showToast('請手動選取並複製程式碼！', '📋');
+      });
+    }
+
+    function saveGasUrl() {
+      const input = document.getElementById('gas-url-input');
+      const url = input ? input.value.trim() : '';
+      if (!url || !url.startsWith('http')) {
+        showToast('請輸入有效的 Google Apps Script 網路應用程式網址（以 https:// 開頭）！', '⚠️');
+        return;
+      }
+      localStorage.setItem('boreas_gas_url', url);
+      localStorage.setItem('boreas_webhook_url', url);
+      showToast('Google 試算表同步網址已儲存！', '✅');
+      closeSheetSetupModal();
+      checkSheetSyncStatus();
+
+      // Automatically sync any pending records
+      syncPendingRecordsToGoogleSheet();
+    }
+
+    function syncPendingRecordsToGoogleSheet() {
+      if (unlockedArchive && unlockedArchive.length > 0) {
+        showToast(`正在將現有 ${unlockedArchive.length} 筆歷史紀錄同步至 Google 試算表...`, '☁️');
+        unlockedArchive.forEach(item => {
+          sendRecordToGoogleSheet(item.studentName, item.skillTitle, item.story);
+        });
+      }
+    }
+
+    function sendRecordToGoogleSheet(name, skill, story) {
+      const gasUrl = localStorage.getItem('boreas_gas_url') || localStorage.getItem('boreas_webhook_url');
+      
+      if (!gasUrl || !gasUrl.startsWith('http')) {
+        showToast('⚠️ Google 試算表尚未連線！請先完成設定', '⚠️');
+        checkSheetSyncStatus();
+        setTimeout(() => {
+          openSheetSetupModal();
+        }, 800);
+        return;
+      }
+
+      showToast('☁️ 正在將紀錄同步存入 Google 試算表...', '☁️');
+
+      const formData = new URLSearchParams();
+      formData.append('name', name);
+      formData.append('skill', skill);
+      formData.append('story', story);
+
+      fetch(gasUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: formData.toString()
+      }).then(() => {
+        showToast('✅ 姓名、技能與心得已成功存入 Google 試算表！', '📊');
+      }).catch(err => {
+        console.warn('Google Sheet sync error:', err);
+      });
+    }
+
+    function testSendToSheet() {
+      const gasUrl = document.getElementById('gas-url-input').value.trim() || localStorage.getItem('boreas_gas_url') || localStorage.getItem('boreas_webhook_url');
+      if (!gasUrl) {
+        showToast('請先貼上 Web App 網址後再進行測試！', '⚠️');
+        return;
+      }
+      showToast('正在發送測試資料至 Google 試算表...', '🧪');
+      
+      const formData = new URLSearchParams();
+      formData.append('name', '北風精靈（測試員）');
+      formData.append('skill', '00｜極速連線術');
+      formData.append('story', '這是一筆從網頁端發送的自動測試紀錄，確認試算表串接正常！');
+
+      fetch(gasUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString()
+      }).then(() => {
+        showToast('🎉 測試資料已成功送出！請至 Google 試算表查看第一行。', '✅');
+      }).catch(err => {
+        showToast('發送失敗，請確認網址是否正確。', '❌');
+      });
+    }
+
+    function exportClassDataCSV() {
+      if (unlockedArchive.length === 0) {
+        showToast('目前本機無任何解鎖紀錄可匯出喔！', '⚠️');
+        return;
+      }
+
+      let csv = "\uFEFF序號,探險者姓名,超能力名稱,所屬系別,核心特質,字數,事件與感受心得,解鎖日期\n";
+      unlockedArchive.forEach(r => {
+        const cleanStory = `"${(r.story || '').replace(/"/g, '""')}"`;
+        csv += `${r.uid},${r.studentName},${r.skillTitle},${r.category},${r.tag},${r.wordCount},${cleanStory},${r.date}\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `北風學院_學生超能力鑑定全紀錄_${new Date().toISOString().slice(0, 10)}.csv`;
+      link.click();
+      showToast('班級 CSV 報表已成功下載！可直接使用 Excel 開啟。', '📊');
+    }
+  </script>
+</body>
+</html>
